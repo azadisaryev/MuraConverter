@@ -85,10 +85,10 @@
 									
 									// Set the simple values of the comment
 									comment.setContentID(content.getContentID());
-									comment.setName(item["wp:comment"]["wp:comment_author"].xmlText);
-									comment.setComments(item["wp:comment"]["wp:comment_content"].xmlText);
-									comment.setEntered(item["wp:comment"]["wp:comment_date"].xmlText);
-									comment.setUrl(item["wp:comment"]["wp:comment_author_url"].xmlText);
+									comment.setName(item["wp:comment"][i]["wp:comment_author"].xmlText);
+									comment.setComments(item["wp:comment"][i]["wp:comment_content"].xmlText);
+									comment.setEntered(item["wp:comment"][i]["wp:comment_date"].xmlText);
+									comment.setUrl(item["wp:comment"][i]["wp:comment_author_url"].xmlText);
 									comment.setIsApproved(1);
 									comment.setSiteID(rc.$.event('siteID'));
 									
