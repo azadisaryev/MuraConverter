@@ -77,8 +77,8 @@
 							// Loop over the comments that were assigned to this wp node
 							for(var i=1; i<=arrayLen(item["wp:comment"]); i++) {
 								
-								// Try to load the comment first
-								var comment = rc.$.getBean("comment").loadBy(entered="#item["wp:comment"][i]["wp:comment_date"].xmlText#");
+								// We look to load the comment first before adding it.  We try to find one where the contentID & the date entered match.
+								var comment = rc.$.getBean("comment").loadBy(entered="#item["wp:comment"][i]["wp:comment_date"].xmlText#", contentID=content.getContentID());
 								
 								// If the comment is new, then we can add it.
 								if(comment.getIsNew()) {
