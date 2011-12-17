@@ -80,8 +80,8 @@
 								// We look to load the comment first before adding it.  We try to find one where the contentID & the date entered match.
 								var comment = rc.$.getBean("comment").loadBy(entered="#item["wp:comment"][i]["wp:comment_date"].xmlText#", contentID=content.getContentID());
 								
-								// If the comment is new, then we can add it.
-								if(comment.getIsNew()) {
+								// If the comment we loaded doesn't have anything in the actual comment, but the wp comment does, then we update it.  This is only used because getIsNew() doesn't work for comments
+								if(!len(comment.getComments()) && len(item["wp:comment"][i]["wp:comment_content"].xmlText)) {
 									
 									// Set the simple values of the comment
 									comment.setContentID(content.getContentID());
