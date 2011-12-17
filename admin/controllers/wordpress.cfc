@@ -85,17 +85,26 @@
 									
 									// Set the simple values of the comment
 									comment.setContentID(content.getContentID());
+									comment.setIsApproved(1);
+									comment.setSiteID(rc.$.event('siteID'));
 									comment.setName(item["wp:comment"][i]["wp:comment_author"].xmlText);
 									comment.setComments(item["wp:comment"][i]["wp:comment_content"].xmlText);
 									comment.setEntered(item["wp:comment"][i]["wp:comment_date"].xmlText);
-									comment.setUrl(item["wp:comment"][i]["wp:comment_author_url"].xmlText);
-									comment.setIsApproved(1);
-									comment.setSiteID(rc.$.event('siteID'));
+									// Only set the URL if the length is lest that 50.
+									if(len(item["wp:comment"][i]["wp:comment_author_url"].xmlText) < 50) {
+										comment.setUrl(item["wp:comment"][i]["wp:comment_author_url"].xmlText);
+									}
+									
+									// Setting the remoteAddr request scope variable that the comment bean requires to save to the DB.  We are setting it as the IP that came from WP. (This is all a workaround because of this issue: https://github.com/blueriver/MuraCMS/issues/222)
+									request.remoteAddr = item["wp:comment"][i]["wp:comment_author_IP"].xmlText;
 									
 									// Save the comment
 									comment.save();	
 								}	
 							}
+							
+							// After all comments have been added we want to set the request.remoteAddr to the CGI so that nothing else strange happens in the request. (This is all a workaround because of this issue: https://github.com/blueriver/MuraCMS/issues/222)
+							request.remoteAddr = cgi.remote_addr;
 							
 							// Call save on the content object
 							content.save();	
